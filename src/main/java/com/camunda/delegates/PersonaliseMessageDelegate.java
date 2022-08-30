@@ -18,11 +18,7 @@ public class PersonaliseMessageDelegate implements JavaDelegate {
 	public void execute(DelegateExecution execution) throws Exception {
 		// we will personalise message here to candidates
 		String candidate_name = null;
-		String outcome;
-		String reason;
-		String application_tailored;
-		String feedback;
-		String comment;
+		String outcome, reason, application_tailored, feedback, comment, competition;
 		
 		// access the candidate database to get the name of the unsuccessful applicant
 		LoggerUtil loggerInstance = new LoggerUtil(QuickScreenerDelegate.class);
@@ -45,6 +41,7 @@ public class PersonaliseMessageDelegate implements JavaDelegate {
 			// drafting custom message
 			outcome = (String)execution.getVariable("outcome");
 			reason = (String)execution.getVariable("reason");
+			competition = (String)execution.getVariable("competition");
 			application_tailored = (String)execution.getVariable("tailored_application");
 			if (outcome.contains("Unsuccessful")) {
 				personalised_message = "Hi " + candidate_name + ". We are sorry that we are unable to move forward with your application in this instance.";
@@ -60,21 +57,23 @@ public class PersonaliseMessageDelegate implements JavaDelegate {
 							"\n" + " Job Requirement: Met " + "\n" +
 				"Application Tailored: " + application_tailored + "\n" + 
 							"Considered for interview: Yes" + "\n" +
-				"Last Status: Wait listed" + "\n";
+				"Last Status: Wait listed" + "\n"
+						+ "Job Competition: " + competition ;
 					personalised_message = personalised_message + comment;
 				}
 					
 				else {
 					comment = " Thank you for investing your time and effort through out the application process."
 							+ " We highly value your skills and experience."
-							+ "Please, contact the recruitment team if you need additional feedback about your application.";
+							+ " The level of competition for this job is " + competition.toLowerCase() + "."
+							+ " Please, contact the recruitment team if you need additional feedback about your application.";
 					personalised_message = personalised_message + comment;
 				}
 					
 				// adding feedback if necessary uncomment it once we move to storing data from application
 //				String has_referral = (String)execution.getVariable("has_referral");
 				if (application_tailored.equalsIgnoreCase("false")) {
-					feedback = "Your application can be tailored to the job to improve your application ";
+					feedback = " Your application can be tailored to the job to improve your application. ";
 					personalised_message = personalised_message + feedback;
 				}
 			

@@ -15,7 +15,7 @@ public class ConductInterviewEndExecutionListener implements ExecutionListener {
 		// here candidate will be scored based on their credentials and their performance in the interview
 		// performance score is provided using a random number generation method
 		int min = 0;
-		int max = 5;
+		int max = 6;
 		
 		// logic to calculate score
 		if (((String)execution.getVariable("has_referral")).equalsIgnoreCase("true")) {
