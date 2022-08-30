@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0jvg1vo" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.1.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.17.0">
+  <bpmn:process id="CheckPool" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_100ap7n</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_100ap7n" sourceRef="StartEvent_1" targetRef="Activity_1h9sdl5" />
+    <bpmn:userTask id="Activity_1h9sdl5" name="Check Applicant Pool">
+      <bpmn:extensionElements>
+        <camunda:executionListener event="start">
+          <camunda:script scriptFormat="groovy">execution.setVariable("vacancy_fulfilled", false)</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_100ap7n</bpmn:incoming>
+      <bpmn:outgoing>Flow_1821njy</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_19m730j" name="Final Applicant">
+      <bpmn:incoming>Flow_1821njy</bpmn:incoming>
+      <bpmn:outgoing>Flow_1iz9ujw</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1mah1no</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1821njy" sourceRef="Activity_1h9sdl5" targetRef="Gateway_19m730j" />
+    <bpmn:endEvent id="Event_1fdx39g">
+      <bpmn:incoming>Flow_1iz9ujw</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1iz9ujw" name="No" sourceRef="Gateway_19m730j" targetRef="Event_1fdx39g">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{not last_candidate}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1mah1no" name="Yes" sourceRef="Gateway_19m730j" targetRef="Activity_1wrr4mj">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{last_candidate}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="Activity_1wrr4mj" name="Check Wait Listed Applicant" camunda:class="com.camunda.delegates.CheckWaitListedApplicantDelegate">
+      <bpmn:incoming>Flow_1mah1no</bpmn:incoming>
+      <bpmn:outgoing>Flow_00emzxs</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_1yvwc1i" name="Applicants Waiting">
+      <bpmn:incoming>Flow_00emzxs</bpmn:incoming>
+      <bpmn:outgoing>Flow_1b2njeh</bpmn:outgoing>
+      <bpmn:outgoing>Flow_094jqb0</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_00emzxs" sourceRef="Activity_1wrr4mj" targetRef="Gateway_1yvwc1i" />
+    <bpmn:sequenceFlow id="Flow_1b2njeh" name="Yes" sourceRef="Gateway_1yvwc1i" targetRef="Event_0p3k0jc">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{applicants_waiting}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:endEvent id="Event_0p3k0jc" name="Call Wait Listed Applicants">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="com.camunda.executionlisteners.CallWaitListedApplicantsExecutionListener" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1b2njeh</bpmn:incoming>
+      <bpmn:signalEventDefinition id="SignalEventDefinition_08d7szf" signalRef="Signal_1uoq6n6">
+        <bpmn:extensionElements />
+      </bpmn:signalEventDefinition>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="Event_071kw1j" name="Terminate Recruitment">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="com.camunda.executionlisteners.CallWaitListedApplicantsExecutionListener" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_094jqb0</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_094jqb0" name="No" sourceRef="Gateway_1yvwc1i" targetRef="Event_071kw1j">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{not applicants_waiting}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+  </bpmn:process>
+  <bpmn:signal id="Signal_1uoq6n6" name="Call_waiting_candidates" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="CheckPool">
+      <bpmndi:BPMNEdge id="Flow_094jqb0_di" bpmnElement="Flow_094jqb0">
+        <di:waypoint x="790" y="222" />
+        <di:waypoint x="790" y="148" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="798" y="182" width="15" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1b2njeh_di" bpmnElement="Flow_1b2njeh">
+        <di:waypoint x="815" y="247" />
+        <di:waypoint x="912" y="247" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="855" y="229" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_00emzxs_di" bpmnElement="Flow_00emzxs">
+        <di:waypoint x="670" y="247" />
+        <di:waypoint x="765" y="247" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1mah1no_di" bpmnElement="Flow_1mah1no">
+        <di:waypoint x="475" y="247" />
+        <di:waypoint x="570" y="247" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="491" y="229" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1iz9ujw_di" bpmnElement="Flow_1iz9ujw">
+        <di:waypoint x="450" y="222" />
+        <di:waypoint x="450" y="148" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="458" y="182" width="15" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1821njy_di" bpmnElement="Flow_1821njy">
+        <di:waypoint x="370" y="247" />
+        <di:waypoint x="425" y="247" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_100ap7n_di" bpmnElement="Flow_100ap7n">
+        <di:waypoint x="215" y="247" />
+        <di:waypoint x="270" y="247" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="229" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1pip1lo_di" bpmnElement="Activity_1h9sdl5">
+        <dc:Bounds x="270" y="207" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_19m730j_di" bpmnElement="Gateway_19m730j" isMarkerVisible="true">
+        <dc:Bounds x="425" y="222" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="414" y="279" width="72" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1fdx39g_di" bpmnElement="Event_1fdx39g">
+        <dc:Bounds x="432" y="112" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0mgu6g0_di" bpmnElement="Activity_1wrr4mj">
+        <dc:Bounds x="570" y="207" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1yvwc1i_di" bpmnElement="Gateway_1yvwc1i" isMarkerVisible="true">
+        <dc:Bounds x="765" y="222" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="745" y="282" width="90" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_18tzgcx_di" bpmnElement="Event_0p3k0jc">
+        <dc:Bounds x="912" y="229" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="892" y="272" width="77" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_071kw1j_di" bpmnElement="Event_071kw1j">
+        <dc:Bounds x="772" y="112" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="760" y="82" width="60" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,105 @@
+{
+  "components": [
+    {
+      "label": "Name",
+      "type": "textfield",
+      "id": "Field_0o8yf86",
+      "key": "name",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "values": [
+        {
+          "value": "Australian Citizen",
+          "label": "Australian Citizen"
+        },
+        {
+          "label": "Permanent Resident",
+          "value": "Permanent Resident"
+        },
+        {
+          "value": "Working Visa",
+          "label": "Working Visa"
+        }
+      ],
+      "label": "Worker Status",
+      "type": "radio",
+      "id": "Field_156qvms",
+      "key": "status",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Job Id",
+      "type": "textfield",
+      "id": "Field_1agiikg",
+      "key": "job_id",
+      "description": "Id of the job you want to apply.",
+      "defaultValue": "1a",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "values": [
+        {
+          "label": "Yes",
+          "value": "true"
+        },
+        {
+          "label": "No",
+          "value": "false"
+        }
+      ],
+      "label": "Do you meet the job requirement?",
+      "type": "radio",
+      "id": "Field_1y61okh",
+      "key": "requirement_met",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Referring Person Name",
+      "type": "textfield",
+      "id": "Field_1y8k5io",
+      "key": "has_referral",
+      "description": "Please write the name of person who referred you this job. Otherwise, type No.",
+      "validate": {
+        "pattern": "Ram Das|John Cena|Nazim Hussain|No",
+        "required": true
+      }
+    },
+    {
+      "values": [
+        {
+          "label": "Yes",
+          "value": "true"
+        },
+        {
+          "label": "No",
+          "value": "false"
+        }
+      ],
+      "label": "Have you tailored your application?",
+      "type": "radio",
+      "id": "Field_07mmk16",
+      "key": "tailored_application",
+      "validate": {
+        "required": true
+      }
+    }
+  ],
+  "type": "default",
+  "id": "application_form",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.1.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.17.0",
+  "schemaVersion": 4
+}
