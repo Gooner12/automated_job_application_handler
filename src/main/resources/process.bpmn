@@ -115,6 +115,9 @@
         <bpmn:outgoing>Flow_1c7cit2</bpmn:outgoing>
       </bpmn:startEvent>
       <bpmn:serviceTask id="Activity_1j070tn" name="Quick Screening" camunda:class="com.camunda.delegates.QuickScreenerDelegate">
+        <bpmn:extensionElements>
+          <camunda:executionListener class="com.camunda.executionlisteners.QuickScreeningEndExecutionListener" event="end" />
+        </bpmn:extensionElements>
         <bpmn:incoming>Flow_1c7cit2</bpmn:incoming>
         <bpmn:outgoing>Flow_0yw6xlr</bpmn:outgoing>
         <bpmn:property id="Property_1loxsda" name="__targetRef_placeholder" />
@@ -175,9 +178,6 @@ execution.setVariable("reason","requirement not met")</camunda:script>
         <bpmn:incoming>Flow_0ig4mg6</bpmn:incoming>
         <bpmn:outgoing>Flow_12u2o9s</bpmn:outgoing>
         <bpmn:script>execution.setVariable("application_assessed", true)
-execution.setVariable("has_referral", "False")
-execution.setVariable("requirement_met", "True")
-execution.setVariable("tailored_application", "True")
 println("Application assessed")</bpmn:script>
       </bpmn:scriptTask>
       <bpmn:sequenceFlow id="Flow_12u2o9s" sourceRef="Activity_1og5f0o" targetRef="Activity_1qw0gfi" />
@@ -280,6 +280,9 @@ println("Application assessed")</bpmn:script>
       </bpmn:parallelGateway>
       <bpmn:sequenceFlow id="Flow_1374a8f" sourceRef="Gateway_1w60ioc" targetRef="Event_0mro4xv" />
       <bpmn:endEvent id="Event_0mro4xv" name="Broadcast position full">
+        <bpmn:extensionElements>
+          <camunda:executionListener class="com.camunda.executionlisteners.BroadcastPositionFullStartExecutionListener" event="start" />
+        </bpmn:extensionElements>
         <bpmn:incoming>Flow_1374a8f</bpmn:incoming>
         <bpmn:signalEventDefinition id="SignalEventDefinition_0cmu8cv" signalRef="Signal_3ec7b37" />
       </bpmn:endEvent>
@@ -365,15 +368,6 @@ println("Application assessed")</bpmn:script>
     <bpmn:sequenceFlow id="Flow_1n812jq" sourceRef="Event_0v1ljjk" targetRef="Activity_0hb8qpo" />
     <bpmn:sequenceFlow id="Flow_0w8vxf0" sourceRef="Event_13bjmll" targetRef="Activity_15qkrt1" />
     <bpmn:sequenceFlow id="Flow_0g82bw1" sourceRef="Activity_15qkrt1" targetRef="Event_0v1ljjk" />
-    <bpmn:startEvent id="Event_13bjmll" name="Application Received">
-      <bpmn:outgoing>Flow_0w8vxf0</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_0yhnttx" messageRef="Message_2aslf49" />
-    </bpmn:startEvent>
-    <bpmn:endEvent id="Event_0sv6pbg" name="Send Unsuccessful Message">
-      <bpmn:extensionElements />
-      <bpmn:incoming>Flow_03tk66y</bpmn:incoming>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_0b2fqy1" messageRef="Message_1tdmnnd" camunda:class="com.camunda.delegates.SendOutcomeMessageDelegate" />
-    </bpmn:endEvent>
     <bpmn:exclusiveGateway id="Gateway_1yo7ob2" name="Vacancy Fulfilled">
       <bpmn:incoming>Flow_0ll7a0z</bpmn:incoming>
       <bpmn:outgoing>Flow_09hpf87</bpmn:outgoing>
@@ -383,10 +377,6 @@ println("Application assessed")</bpmn:script>
     <bpmn:sequenceFlow id="Flow_09hpf87" name="No" sourceRef="Gateway_1yo7ob2" targetRef="Activity_1bs2782">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{not vacancy_fulfilled}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:endEvent id="Event_1740ia0" name="Send Unsuccessful Message">
-      <bpmn:incoming>Flow_12adhp2</bpmn:incoming>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_0uwicqi" messageRef="Message_1tdmnnd" camunda:class="com.camunda.delegates.SendOutcomeMessageDelegate" />
-    </bpmn:endEvent>
     <bpmn:serviceTask id="Activity_128j8ww" name="Personalise Message" camunda:class="com.camunda.delegates.PersonaliseMessageDelegate">
       <bpmn:extensionElements>
         <camunda:executionListener event="start">
@@ -411,14 +401,6 @@ execution.setVariable("reason", "found high scoring candidate")</camunda:script>
       <bpmn:outgoing>Flow_0114hl2</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="Flow_0aw88v8" sourceRef="Activity_1bs2782" targetRef="Event_1fooeog" />
-    <bpmn:endEvent id="Event_1fooeog">
-      <bpmn:incoming>Flow_0aw88v8</bpmn:incoming>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_0f4p5wa" messageRef="Message_1tdmnnd" camunda:class="com.camunda.delegates.SendOutcomeMessageDelegate" />
-    </bpmn:endEvent>
-    <bpmn:endEvent id="Event_1a6abex">
-      <bpmn:incoming>Flow_0114hl2</bpmn:incoming>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_15cc9od" messageRef="Message_1tdmnnd" camunda:class="com.camunda.delegates.SendOutcomeMessageDelegate" />
-    </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_0114hl2" sourceRef="Activity_131x400" targetRef="Event_1a6abex" />
     <bpmn:serviceTask id="Activity_1bs2782" name="Personalise Message" camunda:class="com.camunda.delegates.PersonaliseMessageDelegate">
       <bpmn:extensionElements>
@@ -430,6 +412,26 @@ execution.setVariable("reason","not high score")</camunda:script>
       <bpmn:incoming>Flow_09hpf87</bpmn:incoming>
       <bpmn:outgoing>Flow_0aw88v8</bpmn:outgoing>
     </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_0sv6pbg" name="Send Unsuccessful Message">
+      <bpmn:incoming>Flow_03tk66y</bpmn:incoming>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1ea07f8" messageRef="Message_1tdmnnd" camunda:class="com.camunda.delegates.SendOutcomeMessageDelegate" />
+    </bpmn:endEvent>
+    <bpmn:endEvent id="Event_1740ia0" name="Send Unsuccessful Message">
+      <bpmn:incoming>Flow_12adhp2</bpmn:incoming>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_10n5g5n" messageRef="Message_1tdmnnd" camunda:class="com.camunda.delegates.SendOutcomeMessageDelegate" />
+    </bpmn:endEvent>
+    <bpmn:endEvent id="Event_1a6abex">
+      <bpmn:incoming>Flow_0114hl2</bpmn:incoming>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0hauigh" messageRef="Message_1tdmnnd" camunda:class="com.camunda.delegates.SendOutcomeMessageDelegate" />
+    </bpmn:endEvent>
+    <bpmn:endEvent id="Event_1fooeog">
+      <bpmn:incoming>Flow_0aw88v8</bpmn:incoming>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1ih302m" messageRef="Message_1tdmnnd" camunda:class="com.camunda.delegates.SendOutcomeMessageDelegate" />
+    </bpmn:endEvent>
+    <bpmn:startEvent id="Event_13bjmll" name="Application Received">
+      <bpmn:outgoing>Flow_0w8vxf0</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1cc1nye" messageRef="Message_2aslf49" />
+    </bpmn:startEvent>
   </bpmn:process>
   <bpmn:process id="JobApplication" isExecutable="true">
     <bpmn:scriptTask id="Activity_0hlc2y0" name="Show All Jobs" scriptFormat="groovy">
@@ -503,16 +505,21 @@ execution.setVariable("reason","not high score")</camunda:script>
     <bpmn:sequenceFlow id="Flow_0xrnj7r" sourceRef="Activity_19mloox" targetRef="Activity_1j8irt5" />
     <bpmn:sequenceFlow id="Flow_0r53r0t" sourceRef="Activity_1j8irt5" targetRef="Activity_06pgwim" />
     <bpmn:sequenceFlow id="Flow_10pwnzt" sourceRef="Activity_06pgwim" targetRef="Activity_0knta6l" />
-    <bpmn:sequenceFlow id="Flow_11mdeyg" sourceRef="Event_1befw89" targetRef="Event_0cvlx10" />
+    <bpmn:sequenceFlow id="Flow_11mdeyg" sourceRef="Event_1befw89" targetRef="Activity_1yeux0g" />
     <bpmn:sequenceFlow id="Flow_0p7fdc8" sourceRef="Activity_0knta6l" targetRef="Event_1befw89" />
     <bpmn:endEvent id="Event_0cvlx10">
-      <bpmn:incoming>Flow_11mdeyg</bpmn:incoming>
+      <bpmn:incoming>Flow_0hrnwxq</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:intermediateCatchEvent id="Event_1befw89" name="Receive Application Outcome">
       <bpmn:incoming>Flow_0p7fdc8</bpmn:incoming>
       <bpmn:outgoing>Flow_11mdeyg</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_1jk6fa9" messageRef="Message_1tdmnnd" />
     </bpmn:intermediateCatchEvent>
+    <bpmn:sequenceFlow id="Flow_0hrnwxq" sourceRef="Activity_1yeux0g" targetRef="Event_0cvlx10" />
+    <bpmn:serviceTask id="Activity_1yeux0g" name="Store Outcome" camunda:class="com.camunda.delegates.StoreOutcomeDelegate">
+      <bpmn:incoming>Flow_11mdeyg</bpmn:incoming>
+      <bpmn:outgoing>Flow_0hrnwxq</bpmn:outgoing>
+    </bpmn:serviceTask>
   </bpmn:process>
   <bpmn:message id="Message_2aslf49" name="job_application" />
   <bpmn:message id="Message_1tdmnnd" name="application_outcome" />
@@ -744,6 +751,30 @@ execution.setVariable("reason","not high score")</camunda:script>
         <dc:Bounds x="2955" y="845" width="50" height="50" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="2958" y="821" width="44" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1gikzif_di" bpmnElement="Event_0sv6pbg">
+        <dc:Bounds x="2962" y="1442" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="3007" y="1440" width="66" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_10436ul_di" bpmnElement="Event_1740ia0">
+        <dc:Bounds x="4292" y="1192" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="4277" y="1142" width="66" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0e5cdd4_di" bpmnElement="Event_1a6abex">
+        <dc:Bounds x="6522" y="992" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1gx37dl_di" bpmnElement="Event_1fooeog">
+        <dc:Bounds x="6652" y="992" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0r5jowc_di" bpmnElement="Event_13bjmll">
+        <dc:Bounds x="1522" y="852" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1513" y="822" width="54" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0hb8qpo_di" bpmnElement="Activity_0hb8qpo" isExpanded="true">
@@ -989,28 +1020,10 @@ execution.setVariable("reason","not high score")</camunda:script>
       <bpmndi:BPMNShape id="Event_1duhbdz_di" bpmnElement="Event_0si9d9b">
         <dc:Bounds x="5832" y="642" width="36" height="36" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_14iry6h_di" bpmnElement="Event_13bjmll">
-        <dc:Bounds x="1522" y="852" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1513" y="822" width="54" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_15nye67_di" bpmnElement="Event_0sv6pbg">
-        <dc:Bounds x="2962" y="1442" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="3007" y="1440" width="66" height="40" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_1yo7ob2_di" bpmnElement="Gateway_1yo7ob2" isMarkerVisible="true">
         <dc:Bounds x="6385" y="480" width="50" height="50" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="6369" y="456" width="82" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_19tb6cc_di" bpmnElement="Event_1740ia0">
-        <dc:Bounds x="4292" y="1192" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="4277" y="1142" width="66" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_0l91i41" bpmnElement="Activity_128j8ww">
@@ -1018,12 +1031,6 @@ execution.setVariable("reason","not high score")</camunda:script>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_0eydt21" bpmnElement="Activity_131x400">
         <dc:Bounds x="6490" y="580" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0t2e7s4_di" bpmnElement="Event_1fooeog">
-        <dc:Bounds x="6652" y="992" width="36" height="36" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_116l7ox_di" bpmnElement="Event_1a6abex">
-        <dc:Bounds x="6522" y="992" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_0ah982p" bpmnElement="Activity_1bs2782">
         <dc:Bounds x="6620" y="465" width="100" height="80" />
@@ -1049,7 +1056,7 @@ execution.setVariable("reason","not high score")</camunda:script>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_11mdeyg_di" bpmnElement="Flow_11mdeyg">
         <di:waypoint x="4378" y="1800" />
-        <di:waypoint x="6322" y="1800" />
+        <di:waypoint x="5980" y="1800" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="BPMNEdge_0j5ne3c" bpmnElement="Flow_10pwnzt">
         <di:waypoint x="1410" y="1800" />
@@ -1100,6 +1107,10 @@ execution.setVariable("reason","not high score")</camunda:script>
           <dc:Bounds x="875" y="1782" width="18" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0hrnwxq_di" bpmnElement="Flow_0hrnwxq">
+        <di:waypoint x="6080" y="1800" />
+        <di:waypoint x="6322" y="1800" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="BPMNShape_0xpn9qh" bpmnElement="Activity_0hlc2y0">
         <dc:Bounds x="940" y="1760" width="100" height="80" />
         <bpmndi:BPMNLabel />
@@ -1149,6 +1160,10 @@ execution.setVariable("reason","not high score")</camunda:script>
         <bpmndi:BPMNLabel>
           <dc:Bounds x="4333" y="1825" width="54" height="40" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0oz3xsb_di" bpmnElement="Activity_1yeux0g">
+        <dc:Bounds x="5980" y="1760" width="100" height="80" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="BPMNEdge_0k3jzz5" bpmnElement="DataOutputAssociation_0ln7uxi">
         <di:waypoint x="1700" y="830" />

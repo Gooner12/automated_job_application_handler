@@ -40,15 +40,19 @@ public class ConductInterviewStartExecutionListener implements ExecutionListener
 				int count = rs.getInt(1);
 				if (count > 0 && count <= 7) {
 					execution.setVariable("competition", "Low");
+					execution.setVariable("add_threshold", 0);
 				}
 				else if (count > 7 && count <= 15) {
 					execution.setVariable("competition", "Medium");
+					execution.setVariable("add_threshold", 1);
 				}
 				else if (count > 15 && count <= 25) {
 					execution.setVariable("competition", "High");
+					execution.setVariable("add_threshold", 2);
 				}
 				else if (count > 25) {
 					execution.setVariable("competition", "Very High");
+					execution.setVariable("add_threshold", 3);
 				}
 			}
 		}
