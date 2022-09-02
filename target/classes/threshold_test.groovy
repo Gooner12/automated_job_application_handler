@@ -1,5 +1,5 @@
 def score = 10
-def referral = false
+def referral = true
 def status = "Permanent Resident"
 def tailored_application = true
 def threshold_score
