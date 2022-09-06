@@ -54,18 +54,18 @@ public class PersonaliseMessageDelegate implements JavaDelegate {
 				}
 				
 				else if (reason.equalsIgnoreCase("found high scoring candidate")) {
-					comment = " We have found a high scoring candidate that fits the job role." +
+					comment = " We have found a high-scoring candidate that fits the job role." +
 				" Based on our evaluation, your application received the following result on our internal assessment:" +
 							"\n" + " Job Requirement: Met " + "\n" +
 				"Application Tailored: " + application_tailored + "\n" + 
 							"Considered for interview: Yes" + "\n" +
-				"Last Status: Wait listed" + "\n"
+				"Last Status: Waitlisted" + "\n"
 						+ "Job Competition: " + competition ;
 					personalised_message = personalised_message + comment;
 				}
 					
 				else {
-					comment = " Thank you for investing your time and effort through out the application process."
+					comment = " Thank you for investing your time and effort throughout the application process."
 							+ " We highly value your skills and experience."
 							+ " The level of competition for this job is " + competition.toLowerCase() + "."
 							+ " Please, contact the recruitment team if you need additional feedback about your application.";
@@ -75,13 +75,13 @@ public class PersonaliseMessageDelegate implements JavaDelegate {
 				// adding feedback if necessary uncomment it once we move to storing data from application
 //				String has_referral = (String)execution.getVariable("has_referral");
 				if (application_tailored.equalsIgnoreCase("false")) {
-					feedback = " Your application can be tailored to the job to improve your application. ";
+					feedback = " Your application can be tailored to the job to improve your application.";
 					personalised_message = personalised_message + feedback;
 				}
 			
 				
 				if (has_referral.equalsIgnoreCase("false")) {
-					feedback = "For future applications, you can consider getting a referral "
+					feedback = " For future applications, you can consider getting a referral "
 							+ "from the company employee to boost your application.";
 					personalised_message += feedback;
 				}

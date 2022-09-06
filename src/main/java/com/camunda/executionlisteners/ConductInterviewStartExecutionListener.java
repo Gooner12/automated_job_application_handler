@@ -52,7 +52,7 @@ public class ConductInterviewStartExecutionListener implements ExecutionListener
 				}
 				else if (count > 25) {
 					execution.setVariable("competition", "Very High");
-					execution.setVariable("add_threshold", 3);
+					execution.setVariable("add_threshold", 2.5);
 				}
 			}
 		}
