@@ -24,7 +24,6 @@ public class PositionFulfilledStartExecutionListener implements ExecutionListene
 		map = execution.getVariables();
 		String competition_info = (String)map.get("competition");
 		execution.setVariable("competition", competition_info);
-		execution.setVariable("wait_listed", "true");
 
 	}
 

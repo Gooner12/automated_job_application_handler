@@ -1,7 +1,14 @@
+<<<<<<< HEAD
 def score = execution.getVariable("score")
 def referral = execution.getVariable("has_referral")
 def status = execution.getVariable("status")
 def tailored_application = execution.getVariable("tailored_application")
+=======
+def score = 10
+def referral = false
+def status = "Permanent Resident"
+def tailored_application = true
+>>>>>>> cc4f91efcf6b66730a5efe70a70a970830257d05
 def threshold_score
 def conditional_score = execution.getVariable("add_threshold")
 

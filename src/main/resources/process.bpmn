@@ -20,6 +20,7 @@
     <bpmn:messageFlow id="Flow_1tpskmp" sourceRef="Event_1fooeog" targetRef="Event_1befw89" />
   </bpmn:collaboration>
   <bpmn:process id="SubProcess" name="Sub Process" isExecutable="true">
+<<<<<<< HEAD
     <bpmn:sequenceFlow id="Flow_03tk66y" name="Yes" sourceRef="Gateway_037pw5i" targetRef="Event_0sv6pbg">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{not requirement_satisfied}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
@@ -39,6 +40,199 @@
     <bpmn:sequenceFlow id="Flow_0g82bw1" sourceRef="Activity_15qkrt1" targetRef="Event_0v1ljjk" />
     <bpmn:sequenceFlow id="Flow_0d6b6w5" sourceRef="Activity_0o9rjax" targetRef="Activity_1jvf2o0" />
     <bpmn:subProcess id="Activity_0j9hart" name="Outcome Determiner Expanded Sub Process">
+=======
+    <bpmn:intermediateCatchEvent id="Event_0v1ljjk" name="Wait Till Deadline">
+      <bpmn:incoming>Flow_0g82bw1</bpmn:incoming>
+      <bpmn:outgoing>Flow_1n812jq</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_0r2fbc3">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT10S</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:dataStoreReference id="DataStoreReference_1kiocxh" name="Application Database" />
+    <bpmn:serviceTask id="Activity_15qkrt1" name="Store Application" camunda:class="com.camunda.delegates.StoreApplicationDelegate">
+      <bpmn:incoming>Flow_0w8vxf0</bpmn:incoming>
+      <bpmn:outgoing>Flow_0g82bw1</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_0ln7uxi">
+        <bpmn:targetRef>DataStoreReference_1kiocxh</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_03wsftk" name="Selected">
+      <bpmn:incoming>Flow_00maftl</bpmn:incoming>
+      <bpmn:outgoing>Flow_0vmjf1f</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0pq0gt3</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Activity_0w2d3xu" name="Store Wait Listed Candidate" camunda:class="com.camunda.delegates.StoreWaitlistedCandidateDelegate">
+      <bpmn:incoming>Flow_0pq0gt3</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ng2b55</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_04ccxl7">
+        <bpmn:targetRef>DataStoreReference_177fhg3</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:dataStoreReference id="DataStoreReference_177fhg3" name="Wait Listed Database" />
+    <bpmn:serviceTask id="Activity_0o9rjax" name="Store Selected Candidate" camunda:class="com.camunda.delegates.StoreSelectedCandidateDelegate">
+      <bpmn:incoming>Flow_0vmjf1f</bpmn:incoming>
+      <bpmn:outgoing>Flow_1p584bs</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_1xgg4af">
+        <bpmn:targetRef>DataStoreReference_0jezi70</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:dataStoreReference id="DataStoreReference_0jezi70" />
+    <bpmn:dataStoreReference id="DataStoreReference_00em71g" />
+    <bpmn:exclusiveGateway id="Gateway_1ko19xh" default="Flow_0fv9mt6">
+      <bpmn:incoming>Flow_07w56j9</bpmn:incoming>
+      <bpmn:outgoing>Flow_1sqkx9w</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0fv9mt6</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Event_18acp4y">
+      <bpmn:incoming>Flow_18lifrs</bpmn:incoming>
+      <bpmn:signalEventDefinition id="SignalEventDefinition_1ypq1y7" signalRef="Signal_03ovq0k" />
+    </bpmn:endEvent>
+    <bpmn:intermediateCatchEvent id="Event_165ddbr">
+      <bpmn:incoming>Flow_0x5jzas</bpmn:incoming>
+      <bpmn:incoming>Flow_0fv9mt6</bpmn:incoming>
+      <bpmn:outgoing>Flow_0e6hpbv</bpmn:outgoing>
+      <bpmn:signalEventDefinition id="SignalEventDefinition_1qtdxfq" signalRef="Signal_03ovq0k" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:parallelGateway id="Gateway_1duubyd">
+      <bpmn:incoming>Flow_1sqkx9w</bpmn:incoming>
+      <bpmn:outgoing>Flow_1lso0oj</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0x5jzas</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:intermediateCatchEvent id="Event_08ad53r" name="Wait For Throwing Signal">
+      <bpmn:incoming>Flow_1lso0oj</bpmn:incoming>
+      <bpmn:outgoing>Flow_18lifrs</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_1yxkunn">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT2S</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:userTask id="Activity_1h173z3" name="Wait List Candidate">
+      <bpmn:incoming>Flow_0ng2b55</bpmn:incoming>
+      <bpmn:incoming>Flow_08jcuic</bpmn:incoming>
+    </bpmn:userTask>
+    <bpmn:userTask id="Activity_10fv8an" name="Select Candidate">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_0okkhir</bpmn:incoming>
+      <bpmn:outgoing>Flow_0kc7gy2</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_0a7zbiq">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_0kc7gy2</bpmn:incoming>
+      <bpmn:outgoing>Flow_05snz9k</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1acji1f</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Activity_0j4oqej" name="Store Wait Listed Candidate" camunda:class="com.camunda.delegates.StoreWaitlistedCandidateDelegate">
+      <bpmn:incoming>Flow_05snz9k</bpmn:incoming>
+      <bpmn:outgoing>Flow_08jcuic</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_037pw5i" name="Rejected" camunda:asyncBefore="true">
+      <bpmn:incoming>Flow_0t7fwj6</bpmn:incoming>
+      <bpmn:outgoing>Flow_00maftl</bpmn:outgoing>
+      <bpmn:outgoing>Flow_03tk66y</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:subProcess id="Activity_0hb8qpo">
+      <bpmn:incoming>Flow_1n812jq</bpmn:incoming>
+      <bpmn:outgoing>Flow_0t7fwj6</bpmn:outgoing>
+      <bpmn:startEvent id="Event_0xy8jdz">
+        <bpmn:outgoing>Flow_1c7cit2</bpmn:outgoing>
+      </bpmn:startEvent>
+      <bpmn:serviceTask id="Activity_1j070tn" name="Quick Screening" camunda:class="com.camunda.delegates.QuickScreenerDelegate">
+        <bpmn:incoming>Flow_1c7cit2</bpmn:incoming>
+        <bpmn:outgoing>Flow_0yw6xlr</bpmn:outgoing>
+        <bpmn:property id="Property_1loxsda" name="__targetRef_placeholder" />
+        <bpmn:dataInputAssociation id="DataInputAssociation_18b3rp4">
+          <bpmn:sourceRef>DataStoreReference_1kiocxh</bpmn:sourceRef>
+          <bpmn:targetRef>Property_1loxsda</bpmn:targetRef>
+        </bpmn:dataInputAssociation>
+      </bpmn:serviceTask>
+      <bpmn:sequenceFlow id="Flow_1c7cit2" sourceRef="Event_0xy8jdz" targetRef="Activity_1j070tn" />
+      <bpmn:sequenceFlow id="Flow_0yw6xlr" sourceRef="Activity_1j070tn" targetRef="Gateway_0gm37ow" />
+      <bpmn:exclusiveGateway id="Gateway_0gm37ow" name="Requirement Met">
+        <bpmn:incoming>Flow_0yw6xlr</bpmn:incoming>
+        <bpmn:outgoing>Flow_16fpkwe</bpmn:outgoing>
+        <bpmn:outgoing>Flow_0ki41hj</bpmn:outgoing>
+      </bpmn:exclusiveGateway>
+      <bpmn:sequenceFlow id="Flow_16fpkwe" name="Yes" sourceRef="Gateway_0gm37ow" targetRef="Activity_1opy5qs">
+        <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{requirement_satisfied}</bpmn:conditionExpression>
+      </bpmn:sequenceFlow>
+      <bpmn:sequenceFlow id="Flow_0ki41hj" name="No" sourceRef="Gateway_0gm37ow" targetRef="Activity_11ztqpr">
+        <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{not requirement_satisfied}</bpmn:conditionExpression>
+      </bpmn:sequenceFlow>
+      <bpmn:userTask id="Activity_1opy5qs" name="Select Candidate">
+        <bpmn:extensionElements>
+          <camunda:formData />
+          <camunda:executionListener class="com.camunda.executionlisteners.SelectCandidateStartExecutionListener" event="start" />
+        </bpmn:extensionElements>
+        <bpmn:incoming>Flow_16fpkwe</bpmn:incoming>
+        <bpmn:outgoing>Flow_0m75y3k</bpmn:outgoing>
+      </bpmn:userTask>
+      <bpmn:sequenceFlow id="Flow_0m75y3k" sourceRef="Activity_1opy5qs" targetRef="Event_10nep98" />
+      <bpmn:endEvent id="Event_10nep98">
+        <bpmn:incoming>Flow_0m75y3k</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:endEvent id="Event_0lto7qg">
+        <bpmn:incoming>Flow_1kldk99</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:serviceTask id="Activity_11ztqpr" name="Personalise Message" camunda:class="com.camunda.delegates.PersonaliseMessageDelegate">
+        <bpmn:extensionElements>
+          <camunda:executionListener event="start">
+            <camunda:script scriptFormat="groovy">execution.setVariable("outcome", "Unsuccessful")
+execution.setVariable("reason","requirement not met")</camunda:script>
+          </camunda:executionListener>
+        </bpmn:extensionElements>
+        <bpmn:incoming>Flow_0ki41hj</bpmn:incoming>
+        <bpmn:outgoing>Flow_1kldk99</bpmn:outgoing>
+      </bpmn:serviceTask>
+      <bpmn:sequenceFlow id="Flow_1kldk99" sourceRef="Activity_11ztqpr" targetRef="Event_0lto7qg" />
+    </bpmn:subProcess>
+    <bpmn:subProcess id="Activity_190r92s" name="assess Application">
+      <bpmn:incoming>Flow_1p584bs</bpmn:incoming>
+      <bpmn:incoming>Flow_1acji1f</bpmn:incoming>
+      <bpmn:outgoing>Flow_07w56j9</bpmn:outgoing>
+      <bpmn:startEvent id="Event_1wrsyc6">
+        <bpmn:outgoing>Flow_0ig4mg6</bpmn:outgoing>
+      </bpmn:startEvent>
+      <bpmn:sequenceFlow id="Flow_0ig4mg6" sourceRef="Event_1wrsyc6" targetRef="Activity_1og5f0o" />
+      <bpmn:scriptTask id="Activity_1og5f0o" name="Assess Application" scriptFormat="groovy">
+        <bpmn:incoming>Flow_0ig4mg6</bpmn:incoming>
+        <bpmn:outgoing>Flow_12u2o9s</bpmn:outgoing>
+        <bpmn:script>execution.setVariable("application_assessed", true)
+execution.setVariable("has_referral", "False")
+execution.setVariable("requirement_met", "True")
+execution.setVariable("tailored_application", "True")
+println("Application assessed")</bpmn:script>
+      </bpmn:scriptTask>
+      <bpmn:sequenceFlow id="Flow_12u2o9s" sourceRef="Activity_1og5f0o" targetRef="Activity_1qw0gfi" />
+      <bpmn:userTask id="Activity_1qw0gfi" name="Conduct Interview">
+        <bpmn:extensionElements>
+          <camunda:executionListener class="com.camunda.executionlisteners.ConductInterviewEndExecutionListener" event="end" />
+          <camunda:executionListener class="com.camunda.executionlisteners.ConductInterviewStartExecutionListener" event="start" />
+        </bpmn:extensionElements>
+        <bpmn:incoming>Flow_12u2o9s</bpmn:incoming>
+        <bpmn:outgoing>Flow_1vswiys</bpmn:outgoing>
+      </bpmn:userTask>
+      <bpmn:sequenceFlow id="Flow_1vswiys" sourceRef="Activity_1qw0gfi" targetRef="Activity_0yvruil" />
+      <bpmn:serviceTask id="Activity_0yvruil" name="Store Candidate Score" camunda:class="com.camunda.delegates.StoreCandidateScoreDelegate">
+        <bpmn:incoming>Flow_1vswiys</bpmn:incoming>
+        <bpmn:outgoing>Flow_0z9ziji</bpmn:outgoing>
+        <bpmn:dataOutputAssociation id="DataOutputAssociation_10sispf">
+          <bpmn:targetRef>DataStoreReference_00em71g</bpmn:targetRef>
+        </bpmn:dataOutputAssociation>
+      </bpmn:serviceTask>
+      <bpmn:sequenceFlow id="Flow_0z9ziji" sourceRef="Activity_0yvruil" targetRef="Activity_1npthjv" />
+      <bpmn:endEvent id="Event_0spjitb">
+        <bpmn:incoming>Flow_0ij12yo</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:sequenceFlow id="Flow_0ij12yo" sourceRef="Activity_1npthjv" targetRef="Event_0spjitb" />
+      <bpmn:userTask id="Activity_1npthjv" name="Label Candidate">
+        <bpmn:extensionElements>
+          <camunda:executionListener class="com.camunda.executionlisteners.LabelCandidateStartExecutionListener" event="start" />
+        </bpmn:extensionElements>
+        <bpmn:incoming>Flow_0z9ziji</bpmn:incoming>
+        <bpmn:outgoing>Flow_0ij12yo</bpmn:outgoing>
+      </bpmn:userTask>
+    </bpmn:subProcess>
+    <bpmn:subProcess id="Activity_0j9hart">
+>>>>>>> cc4f91efcf6b66730a5efe70a70a970830257d05
       <bpmn:incoming>Flow_0e6hpbv</bpmn:incoming>
       <bpmn:outgoing>Flow_0ll7a0z</bpmn:outgoing>
       <bpmn:startEvent id="Event_1mxirft">
@@ -208,6 +402,7 @@
       <bpmn:outgoing>Flow_0cbvzw2</bpmn:outgoing>
       <bpmn:signalEventDefinition id="SignalEventDefinition_1khcjpl" signalRef="Signal_3ec7b37" />
     </bpmn:boundaryEvent>
+<<<<<<< HEAD
     <bpmn:endEvent id="Event_1fooeog">
       <bpmn:extensionElements>
         <camunda:executionListener class="com.camunda.delegates.SendOutcomeMessageDelegate" event="start" />
@@ -249,6 +444,59 @@
       </bpmn:messageEventDefinition>
     </bpmn:endEvent>
     <bpmn:serviceTask id="Activity_1bs2782" name="Personalise Message" camunda:class="com.camunda.delegates.PersonaliseMessageDelegate">
+=======
+    <bpmn:sequenceFlow id="Flow_03tk66y" name="Yes" sourceRef="Gateway_037pw5i" targetRef="Event_0sv6pbg">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{not requirement_satisfied}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_00maftl" name="No" sourceRef="Gateway_037pw5i" targetRef="Gateway_03wsftk">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{requirement_satisfied}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_08jcuic" sourceRef="Activity_0j4oqej" targetRef="Activity_1h173z3" />
+    <bpmn:sequenceFlow id="Flow_1acji1f" name="Yes" sourceRef="Gateway_0a7zbiq" targetRef="Activity_190r92s">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{selected_candidate}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_05snz9k" name="No" sourceRef="Gateway_0a7zbiq" targetRef="Activity_0j4oqej">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{not selected_candidate}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0kc7gy2" sourceRef="Activity_10fv8an" targetRef="Gateway_0a7zbiq" />
+    <bpmn:sequenceFlow id="Flow_0okkhir" sourceRef="Event_0fwfdge" targetRef="Activity_10fv8an" />
+    <bpmn:sequenceFlow id="Flow_0cbvzw2" sourceRef="Event_1rlkozz" targetRef="Activity_128j8ww" />
+    <bpmn:sequenceFlow id="Flow_0ng2b55" sourceRef="Activity_0w2d3xu" targetRef="Activity_1h173z3" />
+    <bpmn:sequenceFlow id="Flow_0e6hpbv" sourceRef="Event_165ddbr" targetRef="Activity_0j9hart" />
+    <bpmn:sequenceFlow id="Flow_18lifrs" sourceRef="Event_08ad53r" targetRef="Event_18acp4y" />
+    <bpmn:sequenceFlow id="Flow_0fv9mt6" sourceRef="Gateway_1ko19xh" targetRef="Event_165ddbr" />
+    <bpmn:sequenceFlow id="Flow_0x5jzas" sourceRef="Gateway_1duubyd" targetRef="Event_165ddbr" />
+    <bpmn:sequenceFlow id="Flow_1lso0oj" sourceRef="Gateway_1duubyd" targetRef="Event_08ad53r" />
+    <bpmn:sequenceFlow id="Flow_1sqkx9w" name="Yes" sourceRef="Gateway_1ko19xh" targetRef="Gateway_1duubyd">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{last_candidate}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_07w56j9" sourceRef="Activity_190r92s" targetRef="Gateway_1ko19xh" />
+    <bpmn:sequenceFlow id="Flow_1p584bs" sourceRef="Activity_0o9rjax" targetRef="Activity_190r92s" />
+    <bpmn:sequenceFlow id="Flow_0t7fwj6" sourceRef="Activity_0hb8qpo" targetRef="Gateway_037pw5i" />
+    <bpmn:sequenceFlow id="Flow_0pq0gt3" name="No" sourceRef="Gateway_03wsftk" targetRef="Activity_0w2d3xu">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{not selected_candidate}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0vmjf1f" name="Yes" sourceRef="Gateway_03wsftk" targetRef="Activity_0o9rjax">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{selected_candidate}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1n812jq" sourceRef="Event_0v1ljjk" targetRef="Activity_0hb8qpo" />
+    <bpmn:sequenceFlow id="Flow_0w8vxf0" sourceRef="Event_13bjmll" targetRef="Activity_15qkrt1" />
+    <bpmn:sequenceFlow id="Flow_0g82bw1" sourceRef="Activity_15qkrt1" targetRef="Event_0v1ljjk" />
+    <bpmn:startEvent id="Event_13bjmll" name="Application Received">
+      <bpmn:outgoing>Flow_0w8vxf0</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0yhnttx" messageRef="Message_2aslf49" />
+    </bpmn:startEvent>
+    <bpmn:exclusiveGateway id="Gateway_1yo7ob2" name="Vacancy Fulfilled">
+      <bpmn:incoming>Flow_0ll7a0z</bpmn:incoming>
+      <bpmn:outgoing>Flow_09hpf87</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0qdv3qn</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0ll7a0z" sourceRef="Activity_0j9hart" targetRef="Gateway_1yo7ob2" />
+    <bpmn:sequenceFlow id="Flow_09hpf87" name="No" sourceRef="Gateway_1yo7ob2" targetRef="Activity_1bs2782">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{not vacancy_fulfilled}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="Activity_128j8ww" name="Personalise Message" camunda:class="com.camunda.delegates.PersonaliseMessageDelegate">
+>>>>>>> cc4f91efcf6b66730a5efe70a70a970830257d05
       <bpmn:extensionElements>
         <camunda:executionListener event="start">
           <camunda:script scriptFormat="groovy">execution.setVariable("outcome", "Unsuccessful")
@@ -318,6 +566,7 @@ execution.setVariable("reason", "NA")</camunda:script>
         <camunda:executionListener class="com.camunda.delegates.SendOutcomeMessageDelegate" event="start" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_03tk66y</bpmn:incoming>
+<<<<<<< HEAD
       <bpmn:messageEventDefinition id="MessageEventDefinition_1ea07f8" messageRef="Message_1tdmnnd">
         <bpmn:extensionElements>
           <camunda:connector>
@@ -332,6 +581,8 @@ execution.setVariable("reason", "NA")</camunda:script>
           </camunda:connector>
         </bpmn:extensionElements>
       </bpmn:messageEventDefinition>
+=======
+>>>>>>> cc4f91efcf6b66730a5efe70a70a970830257d05
     </bpmn:endEvent>
     <bpmn:subProcess id="Activity_0hb8qpo" name="Quick Screener Expanded Sub Process">
       <bpmn:incoming>Flow_1n812jq</bpmn:incoming>
@@ -408,6 +659,7 @@ execution.setVariable("reason","requirement not met")</camunda:script>
         <camunda:executionListener class="com.camunda.delegates.SendOutcomeMessageDelegate" event="start" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_12adhp2</bpmn:incoming>
+<<<<<<< HEAD
       <bpmn:messageEventDefinition id="MessageEventDefinition_10n5g5n" messageRef="Message_1tdmnnd">
         <bpmn:extensionElements>
           <camunda:connector>
@@ -424,6 +676,38 @@ execution.setVariable("reason","requirement not met")</camunda:script>
       </bpmn:messageEventDefinition>
     </bpmn:endEvent>
     <bpmn:serviceTask id="Activity_128j8ww" name="Personalise Message" camunda:class="com.camunda.delegates.PersonaliseMessageDelegate">
+=======
+    </bpmn:endEvent>
+    <bpmn:endEvent id="Event_1a6abex">
+      <bpmn:incoming>Flow_0114hl2</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="Event_1fooeog">
+      <bpmn:incoming>Flow_0aw88v8</bpmn:incoming>
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmn:process id="JobApplication" isExecutable="true">
+    <bpmn:scriptTask id="Activity_0hlc2y0" name="Show All Jobs" scriptFormat="groovy">
+      <bpmn:incoming>Flow_1wi1njp</bpmn:incoming>
+      <bpmn:outgoing>Flow_018dws2</bpmn:outgoing>
+      <bpmn:script>println("Show all jobs")</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:exclusiveGateway id="Gateway_1haviby" name="PR or Citizens">
+      <bpmn:incoming>Flow_03fiutk</bpmn:incoming>
+      <bpmn:outgoing>Flow_1wi1njp</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1dswfx4</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:dataStoreReference id="DataStoreReference_1nzr8hm" />
+    <bpmn:serviceTask id="Activity_1dcbc22" name="Retrieve Jobs" camunda:class="com.camunda.delegates.RetrieveJobsDelegate">
+      <bpmn:incoming>Flow_19tlsde</bpmn:incoming>
+      <bpmn:outgoing>Flow_03fiutk</bpmn:outgoing>
+      <bpmn:property id="Property_11slmry" name="__targetRef_placeholder" />
+      <bpmn:dataInputAssociation id="DataInputAssociation_0m7nvce">
+        <bpmn:sourceRef>DataStoreReference_1nzr8hm</bpmn:sourceRef>
+        <bpmn:targetRef>Property_11slmry</bpmn:targetRef>
+      </bpmn:dataInputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="Activity_14espcs" name="Search Jobs">
+>>>>>>> cc4f91efcf6b66730a5efe70a70a970830257d05
       <bpmn:extensionElements>
         <camunda:executionListener event="start">
           <camunda:script scriptFormat="groovy">execution.setVariable("outcome", "Unsuccessful")
@@ -529,14 +813,21 @@ execution.setVariable("reason", "found high scoring candidate")</camunda:script>
     <bpmn:sequenceFlow id="Flow_0xrnj7r" sourceRef="Activity_19mloox" targetRef="Activity_1j8irt5" />
     <bpmn:sequenceFlow id="Flow_0r53r0t" sourceRef="Activity_1j8irt5" targetRef="Activity_06pgwim" />
     <bpmn:sequenceFlow id="Flow_10pwnzt" sourceRef="Activity_06pgwim" targetRef="Activity_0knta6l" />
-    <bpmn:sequenceFlow id="Flow_11mdeyg" sourceRef="Event_1befw89" targetRef="Activity_1yeux0g" />
+    <bpmn:sequenceFlow id="Flow_11mdeyg" sourceRef="Event_1befw89" targetRef="Event_0cvlx10" />
     <bpmn:sequenceFlow id="Flow_0p7fdc8" sourceRef="Activity_0knta6l" targetRef="Event_1befw89" />
+<<<<<<< HEAD
     <bpmn:sequenceFlow id="Flow_0hrnwxq" sourceRef="Activity_1yeux0g" targetRef="Event_0cvlx10" />
+=======
+    <bpmn:endEvent id="Event_0cvlx10">
+      <bpmn:incoming>Flow_11mdeyg</bpmn:incoming>
+    </bpmn:endEvent>
+>>>>>>> cc4f91efcf6b66730a5efe70a70a970830257d05
     <bpmn:intermediateCatchEvent id="Event_1befw89" name="Receive Application Outcome">
       <bpmn:incoming>Flow_0p7fdc8</bpmn:incoming>
       <bpmn:outgoing>Flow_11mdeyg</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_1jk6fa9" messageRef="Message_1tdmnnd" />
     </bpmn:intermediateCatchEvent>
+<<<<<<< HEAD
     <bpmn:sendTask id="Activity_0knta6l" name="Send Application" camunda:class="com.camunda.delegates.SendApplicationsDelegate">
       <bpmn:incoming>Flow_10pwnzt</bpmn:incoming>
       <bpmn:outgoing>Flow_0p7fdc8</bpmn:outgoing>
@@ -605,6 +896,8 @@ execution.setVariable("reason", "found high scoring candidate")</camunda:script>
       <bpmn:text>This activity sends the job application to the recruiter system.</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Association_0xbpfop" sourceRef="Activity_0knta6l" targetRef="TextAnnotation_0qi3a0z" />
+=======
+>>>>>>> cc4f91efcf6b66730a5efe70a70a970830257d05
   </bpmn:process>
   <bpmn:message id="Message_2aslf49" name="job_application" />
   <bpmn:message id="Message_1tdmnnd" name="application_outcome" />
@@ -838,15 +1131,27 @@ execution.setVariable("reason", "found high scoring candidate")</camunda:script>
       <bpmndi:BPMNShape id="Activity_0yce586_di" bpmnElement="Activity_0j4oqej">
         <dc:Bounds x="3660" y="990" width="100" height="80" />
       </bpmndi:BPMNShape>
+<<<<<<< HEAD
       <bpmndi:BPMNShape id="BPMNShape_0l91i41" bpmnElement="Activity_128j8ww">
         <dc:Bounds x="4020" y="1170" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_10436ul_di" bpmnElement="Event_1740ia0">
         <dc:Bounds x="4242" y="1192" width="36" height="36" />
+=======
+      <bpmndi:BPMNShape id="Event_14xcvdj_di" bpmnElement="Event_0sv6pbg">
+        <dc:Bounds x="2962" y="1442" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="3007" y="1440" width="66" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0b8eoh7_di" bpmnElement="Event_1740ia0">
+        <dc:Bounds x="4292" y="1192" width="36" height="36" />
+>>>>>>> cc4f91efcf6b66730a5efe70a70a970830257d05
         <bpmndi:BPMNLabel>
           <dc:Bounds x="4227" y="1142" width="66" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+<<<<<<< HEAD
       <bpmndi:BPMNShape id="Activity_0hb8qpo_di" bpmnElement="Activity_0hb8qpo" isExpanded="true">
         <dc:Bounds x="2010" y="640" width="870" height="550" />
         <bpmndi:BPMNLabel />
@@ -862,6 +1167,16 @@ execution.setVariable("reason", "found high scoring candidate")</camunda:script>
       <bpmndi:BPMNShape id="TextAnnotation_14ugkh2_di" bpmnElement="TextAnnotation_14ugkh2">
         <dc:Bounds x="2600" y="1030" width="99.97751130427105" height="84.556342780027" />
         <bpmndi:BPMNLabel />
+=======
+      <bpmndi:BPMNShape id="Event_074hbj0_di" bpmnElement="Event_1a6abex">
+        <dc:Bounds x="6522" y="992" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1p73gc2_di" bpmnElement="Event_1fooeog">
+        <dc:Bounds x="6652" y="992" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0hb8qpo_di" bpmnElement="Activity_0hb8qpo" isExpanded="true">
+        <dc:Bounds x="2010" y="770" width="870" height="420" />
+>>>>>>> cc4f91efcf6b66730a5efe70a70a970830257d05
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1kldk99_di" bpmnElement="Flow_1kldk99">
         <di:waypoint x="2580" y="980" />
@@ -1126,6 +1441,7 @@ execution.setVariable("reason", "found high scoring candidate")</camunda:script>
       <bpmndi:BPMNShape id="Event_1duhbdz_di" bpmnElement="Event_0si9d9b">
         <dc:Bounds x="4912" y="672" width="36" height="36" />
       </bpmndi:BPMNShape>
+<<<<<<< HEAD
       <bpmndi:BPMNEdge id="Association_0n15h73_di" bpmnElement="Association_0n15h73">
         <di:waypoint x="4412" y="430" />
         <di:waypoint x="4460" y="345" />
@@ -1146,6 +1462,14 @@ execution.setVariable("reason", "found high scoring candidate")</camunda:script>
         <di:waypoint x="4680" y="625" />
         <di:waypoint x="4590" y="760" />
       </bpmndi:BPMNEdge>
+=======
+      <bpmndi:BPMNShape id="Event_14iry6h_di" bpmnElement="Event_13bjmll">
+        <dc:Bounds x="1522" y="852" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1513" y="822" width="54" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+>>>>>>> cc4f91efcf6b66730a5efe70a70a970830257d05
       <bpmndi:BPMNShape id="Gateway_1yo7ob2_di" bpmnElement="Gateway_1yo7ob2" isMarkerVisible="true">
         <dc:Bounds x="5465" y="510" width="50" height="50" />
         <bpmndi:BPMNLabel>
@@ -1214,7 +1538,11 @@ execution.setVariable("reason", "found high scoring candidate")</camunda:script>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_11mdeyg_di" bpmnElement="Flow_11mdeyg">
         <di:waypoint x="4378" y="1800" />
+<<<<<<< HEAD
         <di:waypoint x="5040" y="1800" />
+=======
+        <di:waypoint x="6322" y="1800" />
+>>>>>>> cc4f91efcf6b66730a5efe70a70a970830257d05
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="BPMNEdge_0j5ne3c" bpmnElement="Flow_10pwnzt">
         <di:waypoint x="1410" y="1800" />
@@ -1312,6 +1640,7 @@ execution.setVariable("reason", "found high scoring candidate")</camunda:script>
           <dc:Bounds x="4333" y="1825" width="54" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+<<<<<<< HEAD
       <bpmndi:BPMNShape id="Event_0cvlx10_di" bpmnElement="Event_0cvlx10">
         <dc:Bounds x="5382" y="1782" width="36" height="36" />
       </bpmndi:BPMNShape>
@@ -1323,6 +1652,8 @@ execution.setVariable("reason", "found high scoring candidate")</camunda:script>
         <di:waypoint x="1586" y="1762" />
         <di:waypoint x="1640" y="1717" />
       </bpmndi:BPMNEdge>
+=======
+>>>>>>> cc4f91efcf6b66730a5efe70a70a970830257d05
       <bpmndi:BPMNEdge id="BPMNEdge_0k3jzz5" bpmnElement="DataOutputAssociation_0ln7uxi">
         <di:waypoint x="1700" y="830" />
         <di:waypoint x="1700" y="715" />
