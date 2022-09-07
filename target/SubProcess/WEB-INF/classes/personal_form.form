@@ -31,6 +31,17 @@
       "validate": {
         "required": true
       }
+    },
+    {
+      "label": "Email",
+      "type": "textfield",
+      "id": "Field_1wa1cpv",
+      "key": "email",
+      "validate": {
+        "required": true,
+        "pattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$"
+      },
+      "description": "Please enter the valid email address."
     }
   ],
   "type": "default",

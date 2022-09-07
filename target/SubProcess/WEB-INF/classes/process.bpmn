@@ -394,7 +394,8 @@ execution.setVariable("reason", "found high scoring candidate")</camunda:script>
     <bpmn:serviceTask id="Activity_131x400" name="Personalise Message" camunda:class="com.camunda.delegates.PersonaliseMessageDelegate">
       <bpmn:extensionElements>
         <camunda:executionListener event="start">
-          <camunda:script scriptFormat="groovy">execution.setVariable("outcome", "Successful")</camunda:script>
+          <camunda:script scriptFormat="groovy">execution.setVariable("outcome", "Successful")
+execution.setVariable("reason", "NA")</camunda:script>
         </camunda:executionListener>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0qdv3qn</bpmn:incoming>
@@ -413,20 +414,84 @@ execution.setVariable("reason","not high score")</camunda:script>
       <bpmn:outgoing>Flow_0aw88v8</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:endEvent id="Event_0sv6pbg" name="Send Unsuccessful Message">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="com.camunda.delegates.SendOutcomeMessageDelegate" event="start" />
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_03tk66y</bpmn:incoming>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_1ea07f8" messageRef="Message_1tdmnnd" camunda:class="com.camunda.delegates.SendOutcomeMessageDelegate" />
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1ea07f8" messageRef="Message_1tdmnnd">
+        <bpmn:extensionElements>
+          <camunda:connector>
+            <camunda:inputOutput>
+              <camunda:inputParameter name="html">
+                <camunda:script scriptFormat="freemarker" resource="classpath://email_template.ftl" />
+              </camunda:inputParameter>
+              <camunda:inputParameter name="subject">Application Outcome</camunda:inputParameter>
+              <camunda:inputParameter name="to">${email}</camunda:inputParameter>
+            </camunda:inputOutput>
+            <camunda:connectorId>mail-send</camunda:connectorId>
+          </camunda:connector>
+        </bpmn:extensionElements>
+      </bpmn:messageEventDefinition>
     </bpmn:endEvent>
     <bpmn:endEvent id="Event_1740ia0" name="Send Unsuccessful Message">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="com.camunda.delegates.SendOutcomeMessageDelegate" event="start" />
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_12adhp2</bpmn:incoming>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_10n5g5n" messageRef="Message_1tdmnnd" camunda:class="com.camunda.delegates.SendOutcomeMessageDelegate" />
+      <bpmn:messageEventDefinition id="MessageEventDefinition_10n5g5n" messageRef="Message_1tdmnnd">
+        <bpmn:extensionElements>
+          <camunda:connector>
+            <camunda:inputOutput>
+              <camunda:inputParameter name="html">
+                <camunda:script scriptFormat="freemarker" resource="classpath://email_template.ftl" />
+              </camunda:inputParameter>
+              <camunda:inputParameter name="subject">Application Outcome</camunda:inputParameter>
+              <camunda:inputParameter name="to">${email}</camunda:inputParameter>
+            </camunda:inputOutput>
+            <camunda:connectorId>mail-send</camunda:connectorId>
+          </camunda:connector>
+        </bpmn:extensionElements>
+      </bpmn:messageEventDefinition>
     </bpmn:endEvent>
     <bpmn:endEvent id="Event_1a6abex">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="com.camunda.delegates.SendOutcomeMessageDelegate" event="start" />
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_0114hl2</bpmn:incoming>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_0hauigh" messageRef="Message_1tdmnnd" camunda:class="com.camunda.delegates.SendOutcomeMessageDelegate" />
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0hauigh" messageRef="Message_1tdmnnd">
+        <bpmn:extensionElements>
+          <camunda:connector>
+            <camunda:inputOutput>
+              <camunda:inputParameter name="html">
+                <camunda:script scriptFormat="freemarker" resource="classpath://email_template.ftl" />
+              </camunda:inputParameter>
+              <camunda:inputParameter name="subject">Application Outcome</camunda:inputParameter>
+              <camunda:inputParameter name="to">${email}</camunda:inputParameter>
+            </camunda:inputOutput>
+            <camunda:connectorId>mail-send</camunda:connectorId>
+          </camunda:connector>
+        </bpmn:extensionElements>
+      </bpmn:messageEventDefinition>
     </bpmn:endEvent>
     <bpmn:endEvent id="Event_1fooeog">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="com.camunda.delegates.SendOutcomeMessageDelegate" event="start" />
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_0aw88v8</bpmn:incoming>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_1ih302m" messageRef="Message_1tdmnnd" camunda:class="com.camunda.delegates.SendOutcomeMessageDelegate" />
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1ih302m" messageRef="Message_1tdmnnd">
+        <bpmn:extensionElements>
+          <camunda:connector>
+            <camunda:inputOutput>
+              <camunda:inputParameter name="html">
+                <camunda:script scriptFormat="freemarker" resource="classpath://email_template.ftl" />
+              </camunda:inputParameter>
+              <camunda:inputParameter name="subject">Application Outcome</camunda:inputParameter>
+              <camunda:inputParameter name="to">${email}</camunda:inputParameter>
+            </camunda:inputOutput>
+            <camunda:connectorId>mail-send</camunda:connectorId>
+          </camunda:connector>
+        </bpmn:extensionElements>
+      </bpmn:messageEventDefinition>
     </bpmn:endEvent>
     <bpmn:startEvent id="Event_13bjmll" name="Application Received">
       <bpmn:outgoing>Flow_0w8vxf0</bpmn:outgoing>
@@ -753,30 +818,6 @@ execution.setVariable("reason","not high score")</camunda:script>
           <dc:Bounds x="2958" y="821" width="44" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1gikzif_di" bpmnElement="Event_0sv6pbg">
-        <dc:Bounds x="2962" y="1442" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="3007" y="1440" width="66" height="40" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_10436ul_di" bpmnElement="Event_1740ia0">
-        <dc:Bounds x="4292" y="1192" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="4277" y="1142" width="66" height="40" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0e5cdd4_di" bpmnElement="Event_1a6abex">
-        <dc:Bounds x="6522" y="992" width="36" height="36" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1gx37dl_di" bpmnElement="Event_1fooeog">
-        <dc:Bounds x="6652" y="992" width="36" height="36" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0r5jowc_di" bpmnElement="Event_13bjmll">
-        <dc:Bounds x="1522" y="852" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1513" y="822" width="54" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0hb8qpo_di" bpmnElement="Activity_0hb8qpo" isExpanded="true">
         <dc:Bounds x="2010" y="770" width="870" height="420" />
       </bpmndi:BPMNShape>
@@ -1035,6 +1076,30 @@ execution.setVariable("reason","not high score")</camunda:script>
       <bpmndi:BPMNShape id="BPMNShape_0ah982p" bpmnElement="Activity_1bs2782">
         <dc:Bounds x="6620" y="465" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1gikzif_di" bpmnElement="Event_0sv6pbg">
+        <dc:Bounds x="2962" y="1442" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="3007" y="1440" width="66" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_10436ul_di" bpmnElement="Event_1740ia0">
+        <dc:Bounds x="4292" y="1192" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="4277" y="1142" width="66" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0e5cdd4_di" bpmnElement="Event_1a6abex">
+        <dc:Bounds x="6522" y="992" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1gx37dl_di" bpmnElement="Event_1fooeog">
+        <dc:Bounds x="6652" y="992" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0r5jowc_di" bpmnElement="Event_13bjmll">
+        <dc:Bounds x="1522" y="852" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1513" y="822" width="54" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1nxgxqe_di" bpmnElement="Event_1rlkozz">
         <dc:Bounds x="3952" y="1112" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -1050,6 +1115,10 @@ execution.setVariable("reason","not high score")</camunda:script>
       <bpmndi:BPMNShape id="Participant_1c3xrr8_di" bpmnElement="Participant_1c3xrr8" isHorizontal="true">
         <dc:Bounds x="160" y="1650" width="6640" height="500" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0hrnwxq_di" bpmnElement="Flow_0hrnwxq">
+        <di:waypoint x="6080" y="1800" />
+        <di:waypoint x="6322" y="1800" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0p7fdc8_di" bpmnElement="Flow_0p7fdc8">
         <di:waypoint x="1590" y="1800" />
         <di:waypoint x="4342" y="1800" />
@@ -1106,10 +1175,6 @@ execution.setVariable("reason","not high score")</camunda:script>
         <bpmndi:BPMNLabel>
           <dc:Bounds x="875" y="1782" width="18" height="14" />
         </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0hrnwxq_di" bpmnElement="Flow_0hrnwxq">
-        <di:waypoint x="6080" y="1800" />
-        <di:waypoint x="6322" y="1800" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="BPMNShape_0xpn9qh" bpmnElement="Activity_0hlc2y0">
         <dc:Bounds x="940" y="1760" width="100" height="80" />

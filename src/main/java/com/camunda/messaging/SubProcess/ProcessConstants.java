@@ -20,8 +20,8 @@ public class ProcessConstants {
   public static final String CHECK_WAITLISTED_CANDIDATE = "Select Count(*) from Waitlisted_job_application";
   public static final String REMOVE_WAITLISTED_CANDIDATE = "Delete from Waitlisted_job_application";
   public static final String REMOVE_FASTTRACKED_CANDIDATE = "Delete from Fasttracked_job_application";
-  public static final String STORE_APPLICATIONS = "Insert Into Job_application (Id, Job_id, Name, Status, Requirement_met, Has_referral, Tailored_application, Referee_id) "
-		  +"Values (?,?,?,?,?,?,?,?)";
+  public static final String STORE_APPLICATIONS = "Insert Into Job_application (Id, Job_id, Name, Status, Requirement_met, Has_referral, Tailored_application, Referee_id, Email) "
+		  +"Values (?,?,?,?,?,?,?,?,?)";
   public static final String STORE_REFEREE = "Insert Into Referee (Id, Name) Values (?,?)";
   public static final String CHECK_VALID_CANDIDATE = "Select Count(*) from job_application Where Requirement_met = ?";
   public static final String STORE_OUTCOME = "Insert into Outcome (Job_id, Name, Status, Has_referral, Tailored_application, Waitlisted, Competition, Outcome, Reason)"

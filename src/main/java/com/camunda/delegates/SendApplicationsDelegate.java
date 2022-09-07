@@ -16,6 +16,7 @@ public class SendApplicationsDelegate implements JavaDelegate {
 		String referee = (String)execution.getVariable("has_referral");
 		String tailored_application = (String)execution.getVariable("tailored_application");
 		String job_id = (String)execution.getVariable("job_id");
+		String email = (String)execution.getVariable("email");
 		
 		execution.getProcessEngineServices().getRuntimeService()
 		.createMessageCorrelation("job_application")
@@ -26,6 +27,7 @@ public class SendApplicationsDelegate implements JavaDelegate {
 		.setVariable("referee", referee)
 		.setVariable("tailored_application", tailored_application)
 		.setVariable("job_id", job_id)
+		.setVariable("email", email)
 		.processInstanceBusinessKey(business_key)
 		.correlate();	
 

@@ -45,8 +45,9 @@ public class PersonaliseMessageDelegate implements JavaDelegate {
 			competition = (String)execution.getVariable("competition");
 			application_tailored = (String)execution.getVariable("tailored_application");
 			has_referral = (String)execution.getVariable("has_referral");
+			feedback = "NA";
 			if (outcome.contains("Unsuccessful")) {
-				personalised_message = "Hi " + candidate_name + ". We are sorry that we are unable to move forward with your application in this instance.";
+				personalised_message = "We are sorry that we are unable to move forward with your application in this instance.";
 				
 				if (reason.equalsIgnoreCase("requirement not met")) {
 					comment = " We determined that you have failed to meet the requirements of the job.";
@@ -55,12 +56,12 @@ public class PersonaliseMessageDelegate implements JavaDelegate {
 				
 				else if (reason.equalsIgnoreCase("found high scoring candidate")) {
 					comment = " We have found a high-scoring candidate that fits the job role." +
-				" Based on our evaluation, your application received the following result on our internal assessment:" +
-							"\n" + " Job Requirement: Met " + "\n" +
-				"Application Tailored: " + application_tailored + "\n" + 
-							"Considered for interview: Yes" + "\n" +
-				"Last Status: Waitlisted" + "\n"
-						+ "Job Competition: " + competition ;
+				" Based on our evaluation, your application received the following result on our internal assessment:";
+//							"\n" + " Job Requirement: Met " + "\n" +
+//				"Application Tailored: " + application_tailored + "\n" + 
+//							"Considered for interview: Yes" + "\n" +
+//				"Last Status: Waitlisted" + "\n"
+//						+ "Job Competition: " + competition ;
 					personalised_message = personalised_message + comment;
 				}
 					
@@ -76,23 +77,23 @@ public class PersonaliseMessageDelegate implements JavaDelegate {
 //				String has_referral = (String)execution.getVariable("has_referral");
 				if (application_tailored.equalsIgnoreCase("false")) {
 					feedback = " Your application can be tailored to the job to improve your application.";
-					personalised_message = personalised_message + feedback;
+//					personalised_message = personalised_message + feedback;
 				}
 			
 				
 				if (has_referral.equalsIgnoreCase("false")) {
 					feedback = " For future applications, you can consider getting a referral "
 							+ "from the company employee to boost your application.";
-					personalised_message += feedback;
+//					personalised_message += feedback;		
 				}
 					
 			}
 			
 			else if (outcome.contains("Successful")) {
-				personalised_message = "Hi " + candidate_name + ". Congratulations! You've been selected as a suitable candidate for the role.";
+				personalised_message = "Congratulations! You've been selected as a suitable candidate for the role.";
 			}
 			
-			
+			execution.setVariable("feedback", feedback);
 			execution.setVariable("message", personalised_message);
 		}
 		catch (Exception e) {

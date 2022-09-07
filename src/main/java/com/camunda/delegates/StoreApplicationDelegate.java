@@ -25,6 +25,7 @@ public class StoreApplicationDelegate implements JavaDelegate {
 		String status = (String)execution.getVariable("status");
 		String requirement_met = (String)execution.getVariable("requirement_met");
 		String tailored_application = (String)execution.getVariable("tailored_application");
+		String email = (String)execution.getVariable("email");
 
 		// accessing the referee details for storing into two tables: primary and foreign table
 		String has_referral = "false";
@@ -49,7 +50,7 @@ public class StoreApplicationDelegate implements JavaDelegate {
 		
 		// creating an array of string type containing values and building a map from it
 //		String k[] = new String[] {"id", "job_id", "name", "status", "requirement_met", "has_referral", "tailored_application", "referee_id"};
-		String v[] = new String[] {id, job_id, name, status, requirement_met, has_referral, tailored_application, referee_id};
+		String v[] = new String[] {id, job_id, name, status, requirement_met, has_referral, tailored_application, referee_id, email};
 		
 		// populating the job_application table
 		KeyValueBundler bundler_job = new KeyValueBundler(v);
