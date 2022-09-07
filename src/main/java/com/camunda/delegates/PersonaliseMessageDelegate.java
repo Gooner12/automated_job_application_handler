@@ -18,36 +18,34 @@ public class PersonaliseMessageDelegate implements JavaDelegate {
 	public void execute(DelegateExecution execution) throws Exception {
 		// we will personalise message here to candidates
 		String candidate_name = null;
-		String outcome, reason, application_tailored, feedback, comment, competition;
+		String outcome, reason, application_tailored, feedback, comment, competition, has_referral;
 		
-		// access the candidate database to get the name of the unsuccessful applicant
+//		// access the candidate database to get the name of the unsuccessful applicant
 		LoggerUtil loggerInstance = new LoggerUtil(QuickScreenerDelegate.class);
 		Logger logger = loggerInstance.getLogger();
-		
-		DatabaseConnectionUtil db = new DatabaseConnectionUtil(ProcessConstants.RETRIEVE_QUERY);
-		PreparedStatement ps = db.getPreparedStatement();
-		logger.info("Database accessed for personalising message!!!");
+//		
+//		DatabaseConnectionUtil db = new DatabaseConnectionUtil(ProcessConstants.RETRIEVE_QUERY);
+//		PreparedStatement ps = db.getPreparedStatement();
+		logger.info("Personalising message!!!");
 		
 		try {	
-			// getting the business key of a process instance
-			String id = (String)execution.getProcessInstance().getBusinessKey();
-			ps.setString(1,id); 
-		
-			ResultSet rs = ps.executeQuery();	
-			// sets the requirement met variable for checking later by one of the exclusive gateway
-			while(rs.next()) {
-				candidate_name = rs.getString(1);
-			}
+//			// getting the business key of a process instance
+//			String id = (String)execution.getProcessInstance().getBusinessKey();
+//			ps.setString(1,id); 
+//		
+//			ResultSet rs = ps.executeQuery();	
+//			// sets the requirement met variable for checking later by one of the exclusive gateway
+//			while(rs.next()) {
+//				candidate_name = rs.getString(1);
+//			}
 			// drafting custom message
+			candidate_name = (String)execution.getVariable("name");
 			outcome = (String)execution.getVariable("outcome");
 			reason = (String)execution.getVariable("reason");
 			competition = (String)execution.getVariable("competition");
 			application_tailored = (String)execution.getVariable("tailored_application");
-<<<<<<< HEAD
 			has_referral = (String)execution.getVariable("has_referral");
 			feedback = "NA";
-=======
->>>>>>> cc4f91efcf6b66730a5efe70a70a970830257d05
 			if (outcome.contains("Unsuccessful")) {
 				personalised_message = "We are sorry that we are unable to move forward with your application in this instance.";
 				
@@ -83,19 +81,11 @@ public class PersonaliseMessageDelegate implements JavaDelegate {
 				}
 			
 				
-<<<<<<< HEAD
 				if (has_referral.equalsIgnoreCase("false")) {
 					feedback = " For future applications, you can consider getting a referral "
 							+ "from the company employee to boost your application.";
 //					personalised_message += feedback;		
 				}
-=======
-//				if (has_referral.equalsIgnoreCase("false")) {
-//					feedback = "For future applications, you can consider getting a referral "
-//							+ "from the company employee to boost your application.";
-//					personalised_message += feedback;
-//				}
->>>>>>> cc4f91efcf6b66730a5efe70a70a970830257d05
 					
 			}
 			
@@ -108,9 +98,6 @@ public class PersonaliseMessageDelegate implements JavaDelegate {
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-		}
-		finally {
-			db.closeConnection();
 		}
 	}
 
