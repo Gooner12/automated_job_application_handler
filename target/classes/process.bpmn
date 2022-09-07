@@ -369,11 +369,14 @@ println("Application assessed")</bpmn:script>
       <bpmn:outgoing>Flow_0w8vxf0</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_0yhnttx" messageRef="Message_2aslf49" />
     </bpmn:startEvent>
+<<<<<<< HEAD
     <bpmn:endEvent id="Event_0sv6pbg" name="Send Unsuccessful Message">
       <bpmn:extensionElements />
       <bpmn:incoming>Flow_03tk66y</bpmn:incoming>
       <bpmn:messageEventDefinition id="MessageEventDefinition_0b2fqy1" messageRef="Message_1tdmnnd" camunda:class="com.camunda.delegates.SendOutcomeMessageDelegate" />
     </bpmn:endEvent>
+=======
+>>>>>>> parent of 725ac3d (Persisted the application result)
     <bpmn:exclusiveGateway id="Gateway_1yo7ob2" name="Vacancy Fulfilled">
       <bpmn:incoming>Flow_0ll7a0z</bpmn:incoming>
       <bpmn:outgoing>Flow_09hpf87</bpmn:outgoing>
@@ -430,6 +433,21 @@ execution.setVariable("reason","not high score")</camunda:script>
       <bpmn:incoming>Flow_09hpf87</bpmn:incoming>
       <bpmn:outgoing>Flow_0aw88v8</bpmn:outgoing>
     </bpmn:serviceTask>
+<<<<<<< HEAD
+=======
+    <bpmn:endEvent id="Event_0sv6pbg" name="Send Unsuccessful Message">
+      <bpmn:incoming>Flow_03tk66y</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="Event_1740ia0" name="Send Unsuccessful Message">
+      <bpmn:incoming>Flow_12adhp2</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="Event_1a6abex">
+      <bpmn:incoming>Flow_0114hl2</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="Event_1fooeog">
+      <bpmn:incoming>Flow_0aw88v8</bpmn:incoming>
+    </bpmn:endEvent>
+>>>>>>> parent of 725ac3d (Persisted the application result)
   </bpmn:process>
   <bpmn:process id="JobApplication" isExecutable="true">
     <bpmn:scriptTask id="Activity_0hlc2y0" name="Show All Jobs" scriptFormat="groovy">
@@ -746,6 +764,27 @@ execution.setVariable("reason","not high score")</camunda:script>
           <dc:Bounds x="2958" y="821" width="44" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+<<<<<<< HEAD
+=======
+      <bpmndi:BPMNShape id="Event_14xcvdj_di" bpmnElement="Event_0sv6pbg">
+        <dc:Bounds x="2962" y="1442" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="3007" y="1440" width="66" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0b8eoh7_di" bpmnElement="Event_1740ia0">
+        <dc:Bounds x="4292" y="1192" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="4277" y="1142" width="66" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_074hbj0_di" bpmnElement="Event_1a6abex">
+        <dc:Bounds x="6522" y="992" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1p73gc2_di" bpmnElement="Event_1fooeog">
+        <dc:Bounds x="6652" y="992" width="36" height="36" />
+      </bpmndi:BPMNShape>
+>>>>>>> parent of 725ac3d (Persisted the application result)
       <bpmndi:BPMNShape id="Activity_0hb8qpo_di" bpmnElement="Activity_0hb8qpo" isExpanded="true">
         <dc:Bounds x="2010" y="770" width="870" height="420" />
       </bpmndi:BPMNShape>
@@ -995,12 +1034,15 @@ execution.setVariable("reason","not high score")</camunda:script>
           <dc:Bounds x="1513" y="822" width="54" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+<<<<<<< HEAD
       <bpmndi:BPMNShape id="Event_15nye67_di" bpmnElement="Event_0sv6pbg">
         <dc:Bounds x="2962" y="1442" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="3007" y="1440" width="66" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+=======
+>>>>>>> parent of 725ac3d (Persisted the application result)
       <bpmndi:BPMNShape id="Gateway_1yo7ob2_di" bpmnElement="Gateway_1yo7ob2" isMarkerVisible="true">
         <dc:Bounds x="6385" y="480" width="50" height="50" />
         <bpmndi:BPMNLabel>

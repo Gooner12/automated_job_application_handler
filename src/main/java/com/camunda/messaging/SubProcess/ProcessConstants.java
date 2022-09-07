@@ -5,7 +5,7 @@ public class ProcessConstants {
   public static final String PROCESS_DEFINITION_KEY = "SubProcess"; // BPMN Process ID
   public static final String DB_USER_NAME = "root";
   public static final String DB_USER_PASSWORD = "korea123";
-  public static final String RETRIEVE_QUERY = "SELECT Name, Requirement_met, Status, Has_referral, Tailored_application, Job_id from Job_application Where Id = ?";
+  public static final String RETRIEVE_QUERY = "SELECT Name, Requirement_met from Job_application Where Id = ?";
   public static final String RETRIEVE_REFERRED_CANDIDATE = "Select Count(*) from Job_application Where Has_referral = ?";
   public static final String TRANSFER_ROW_WAITLISTED = "Insert Into waitlisted_job_application (Id, Job_id, Name, Has_referral, Tailored_application) "
   		+ "SELECT Id, Job_id, Name, Has_referral, Tailored_application "
@@ -24,6 +24,4 @@ public class ProcessConstants {
 		  +"Values (?,?,?,?,?,?,?,?)";
   public static final String STORE_REFEREE = "Insert Into Referee (Id, Name) Values (?,?)";
   public static final String CHECK_VALID_CANDIDATE = "Select Count(*) from job_application Where Requirement_met = ?";
-  public static final String STORE_OUTCOME = "Insert into Outcome (Job_id, Name, Status, Has_referral, Tailored_application, Waitlisted, Competition, Outcome, Reason)"
-  		+ " Values (?,?,?,?,?,?,?,?,?)";
 }
