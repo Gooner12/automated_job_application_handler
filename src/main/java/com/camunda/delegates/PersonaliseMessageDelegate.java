@@ -99,9 +99,6 @@ public class PersonaliseMessageDelegate implements JavaDelegate {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-//		finally {
-//			db.closeConnection();
-//		}
 	}
 
 }
