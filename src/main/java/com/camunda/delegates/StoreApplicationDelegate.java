@@ -60,9 +60,9 @@ public class StoreApplicationDelegate implements JavaDelegate {
         RecordStorer storer_job = new RecordStorer(StoreApplicationDelegate.class, ProcessConstants.STORE_APPLICATIONS, execution, hash_map_job);
         storer_job.storeApplication();
 		
-//		execution.setVariable("requirement_met", "false");
-//		execution.setVariable("referee", "No");
-//		execution.setVariable("tailored_application", "false");
+		execution.setVariable("requirement_met", "false");
+		execution.setVariable("referee", "No");
+		execution.setVariable("tailored_application", "false");
 		System.out.println("Stored Application");
 	}
 
