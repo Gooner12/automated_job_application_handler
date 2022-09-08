@@ -8,7 +8,7 @@ import java.lang.Math;
 import java.text.DecimalFormat;
 
 public class ConductInterviewEndExecutionListener implements ExecutionListener {
-	private static double score = 0;
+	private double score = 0;
 
 	@Override
 	public void notify(DelegateExecution execution) throws Exception {
@@ -22,9 +22,9 @@ public class ConductInterviewEndExecutionListener implements ExecutionListener {
 			score += 10;
 		}
 
-//		if (((String)execution.getVariable("status")).equals("Permanent Resident") || ((String)execution.getVariable("status")).equals("Australian Citizen")) {
-//			score += 3; // We'll uncomment this later
-//		}
+		if (((String)execution.getVariable("status")).equals("Permanent Resident") || ((String)execution.getVariable("status")).equals("Australian Citizen")) {
+			score += 3; // We'll uncomment this later
+		}
 		
 		if (((String)execution.getVariable("tailored_application")).equalsIgnoreCase("true")) {
 			score += 3;
