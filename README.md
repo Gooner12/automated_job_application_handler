@@ -52,4 +52,70 @@ mail.password=PASSWORD
 
 To learn more about using the email feature, check out [this GitHub page](https://github.com/camunda-community-hub/camunda-platform-7-mail).
 Also, you need to set the `MAIL_CONFIG` environment variable to the path where you copied the configuration file. Check [this page](https://github.com/camunda-community-hub/camunda-platform-7-mail/tree/master/examples/pizza) for setting up the `MAIL_CONFIG` environment variable correctly.
-Lastly, to enable your Gmail to send emails, follow the instructions starting from step 3 on [this page](https://mkyong.com/java/javamail-api-sending-email-via-gmail-smtp-example/).
+
+To enable your Gmail to send emails, follow the instructions starting from step 3 on [this page](https://mkyong.com/java/javamail-api-sending-email-via-gmail-smtp-example/).
+
+For retrieval and storage purposes, a connection to a database is needed. In this project, MySQL database has been used. After setting up the database, we need to have five tables set up in the database. Run the following queries to create the tables.
+
+### Job Application Table
+This table stores all applications received for the job.
+
+```
+Create Table job_application (
+Id varchar(5) primary key, Job_id varchar(5),
+Name varchar(20), Status varchar(30),
+Requirement_met varchar(5),
+Has_referral varchar(5),
+Tailored_application varchar(5), Referee_id varchar(5), Email varchar(50) Not null,
+foreign key (referee_id) references referee(id));
+```
+
+### Fasttracked Job Application Table
+This table stores the applications that are selected for an interview and gets reset when a new pool of candidates enters the interview stage.
+```
+Create Table fasttracked_job_application (
+Id varchar(5) primary key, Job_id varchar(5),
+Name varchar(20),
+Has_referral varchar(5),
+Tailored_application varchar(5), score DOUBLE(11,8));
+```
+
+### Waitlisted Job Application Table
+This table stores the waitlisted applications and gets updated when waitlisted candidates are called for an interview.
+```
+Create Table waitlisted_job_application (
+Id varchar(5) primary key, Job_id varchar(5),
+Name varchar(20),
+Has_referral varchar(5),
+Tailored_application varchar(5));
+```
+
+### Referee Table
+This table stores the information about the referee names and acts as a foreign table for the job application table.
+```
+Create Table referee (
+Id varchar(5) primary key,
+Name varchar(20));
+```
+
+Populate the table with the following information.
+```
+Insert Into referee (Id, Name) Values
+("1", "Ram Das"),
+("2", "John Cena"),
+("3", "Nazim Hussain");
+```
+
+### Outcome Table
+This table stores the outcome of the job application for each applicant.
+```
+CREATE TABLE outcome (
+    Id int NOT NULL AUTO_INCREMENT,
+    Job_id varchar(5) NOT NULL,
+    Name varchar(20), Status varchar(30),
+    Has_referral varchar(5), Tailored_application varchar(5),
+    Waitlisted varchar(20) Default "Not Applicable",
+    Competition varchar(20), Outcome varchar(20), Reason varchar(50),
+    PRIMARY KEY (Id)
+); 
+```
