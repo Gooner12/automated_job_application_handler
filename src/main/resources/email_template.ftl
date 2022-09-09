@@ -17,7 +17,7 @@
         <li>Job Competition: ${competition}</li>
       </ul>
     </#if>
-    <#if feedback != "NA">
+    <#if feedback != "">
       <p style="margin-bottom:20px">${feedback}</p> 
     </#if>
   </div>

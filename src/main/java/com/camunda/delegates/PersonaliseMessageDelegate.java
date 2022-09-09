@@ -20,24 +20,12 @@ public class PersonaliseMessageDelegate implements JavaDelegate {
 		String candidate_name = null;
 		String outcome, reason, application_tailored, feedback, comment, competition, has_referral;
 		
-//		// access the candidate database to get the name of the unsuccessful applicant
+		// access the candidate database to get the name of the unsuccessful applicant
 		LoggerUtil loggerInstance = new LoggerUtil(QuickScreenerDelegate.class);
 		Logger logger = loggerInstance.getLogger();
-//		
-//		DatabaseConnectionUtil db = new DatabaseConnectionUtil(ProcessConstants.RETRIEVE_QUERY);
-//		PreparedStatement ps = db.getPreparedStatement();
 		logger.info("Personalising message!!!");
 		
 		try {	
-//			// getting the business key of a process instance
-//			String id = (String)execution.getProcessInstance().getBusinessKey();
-//			ps.setString(1,id); 
-//		
-//			ResultSet rs = ps.executeQuery();	
-//			// sets the requirement met variable for checking later by one of the exclusive gateway
-//			while(rs.next()) {
-//				candidate_name = rs.getString(1);
-//			}
 			// drafting custom message
 			candidate_name = (String)execution.getVariable("name");
 			outcome = (String)execution.getVariable("outcome");
@@ -45,7 +33,7 @@ public class PersonaliseMessageDelegate implements JavaDelegate {
 			competition = (String)execution.getVariable("competition");
 			application_tailored = (String)execution.getVariable("tailored_application");
 			has_referral = (String)execution.getVariable("has_referral");
-			feedback = "NA";
+			feedback = "";
 			if (outcome.contains("Unsuccessful")) {
 				personalised_message = "We are sorry that we are unable to move forward with your application in this instance.";
 				
@@ -57,11 +45,6 @@ public class PersonaliseMessageDelegate implements JavaDelegate {
 				else if (reason.equalsIgnoreCase("found high scoring candidate")) {
 					comment = " We have found a high-scoring candidate that fits the job role." +
 				" Based on our evaluation, your application received the following result on our internal assessment:";
-//							"\n" + " Job Requirement: Met " + "\n" +
-//				"Application Tailored: " + application_tailored + "\n" + 
-//							"Considered for interview: Yes" + "\n" +
-//				"Last Status: Waitlisted" + "\n"
-//						+ "Job Competition: " + competition ;
 					personalised_message = personalised_message + comment;
 				}
 					
@@ -74,17 +57,14 @@ public class PersonaliseMessageDelegate implements JavaDelegate {
 				}
 					
 				// adding feedback if necessary uncomment it once we move to storing data from application
-//				String has_referral = (String)execution.getVariable("has_referral");
 				if (application_tailored.equalsIgnoreCase("false")) {
-					feedback = " Your application can be tailored to the job to improve your application.";
-//					personalised_message = personalised_message + feedback;
+					feedback = feedback + " Your application can be tailored to the job to improve your application.";
 				}
 			
 				
 				if (has_referral.equalsIgnoreCase("false")) {
-					feedback = " For future applications, you can consider getting a referral "
-							+ "from the company employee to boost your application.";
-//					personalised_message += feedback;		
+					feedback = feedback + " For future applications, you can consider getting a referral "
+							+ "from the company employee to boost your application.";	
 				}
 					
 			}
