@@ -17,7 +17,8 @@ public class StoreCandidateScoreDelegate implements JavaDelegate {
 		// here we write code to store the candidate score
 		double candidate_score = (Double) execution.getVariable("score");
 		
-		LoggerUtil loggerInstance = new LoggerUtil(QuickScreenerDelegate.class);
+		
+		LoggerUtil loggerInstance = new LoggerUtil(StoreCandidateScoreDelegate.class);
 		Logger logger = loggerInstance.getLogger();
 		
 		DatabaseConnectionUtil db = new DatabaseConnectionUtil(ProcessConstants.UPDATE_SCORE);
