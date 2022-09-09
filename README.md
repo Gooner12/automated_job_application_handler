@@ -13,6 +13,11 @@ The workflow of the application handler is depicted by the following steps:
 6) If fast-tracked candidates fail to fill up the role, waitlisted candidates will be called for an interview, and the process continues until the role is fulfilled or there are no more candidates on the waiting list.
 7) Finally, all candidates, successful and unsuccessful, will be emailed about the application outcome.
 
+## Sample Email
+This is a sample email generated for applicants who could not make it past the waiting stage. For more variations of generated email, check the images folder.
+
+<img src="images/unsuccessful_waitlisted_email.PNG" width="75%" alt="email for unsuccessful waitlisted candidates">
+
 ## Additional Information
 This project is developed using Camunda, Java and FreeMarker. The developed project is deployed to the shared Tomcat engine. Also, to enable the email feature, the credentials in the mail-config.properties file should be replaced with valid credentials.
 
