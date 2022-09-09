@@ -19,7 +19,7 @@ This is a sample email generated for applicants who could not make it past the w
 <img src="images/unsuccessful_waitlisted_email.PNG" width="75%" alt="email for unsuccessful waitlisted candidates">
 
 ## Additional Information
-This project is developed using Camunda, Java and FreeMarker. The developed project is deployed to the shared Tomcat engine. Also, to enable the email feature, the credentials in the mail-config.properties file should be replaced with valid credentials.
+This project is developed using Camunda, Java, SQL, Goovy and FreeMarker. The developed project is deployed to the shared Tomcat engine. Also, to enable the email feature, the credentials in the mail-config.properties file should be replaced with valid credentials.
 
 ```
 # send mails via SMTP
